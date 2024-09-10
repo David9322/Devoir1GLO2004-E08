@@ -6,11 +6,13 @@ public class Clinic {
 
     private List<Patient> doctorsQ = new ArrayList<>();
     private List<Patient> radiologyQ = new ArrayList<>();
-    private TriageType triageType;
+    private TriageType doctorTriageType;
+    private TriageType radiologyTriageType;
 
-    public Clinic(TriageType triageType)
+    public Clinic(TriageType doctorTriageType, TriageType radiologyTriageType)
     {
-        this.triageType = triageType;
+        this.doctorTriageType = doctorTriageType;
+        this.radiologyTriageType = radiologyTriageType;
     }
 
     public Patient doctorMeetPatient()
@@ -36,17 +38,23 @@ public class Clinic {
 
     private void addPatientToDoctorsQ(Patient patient)
     {
-        if(this.triageType == TriageType.FIFO){
+        if(this.doctorTriageType == TriageType.FIFO){
             doctorsQ.add(patient);
         }
-        if(this.triageType == TriageType.GRAVITY){
+        if(this.doctorTriageType == TriageType.GRAVITY){
             doctorsQ.addFirst(patient);
         }
     }
 
     private void addPatientToRadiologyQ(Patient patient)
     {
-        radiologyQ.add(patient);
+        if(this.radiologyTriageType == TriageType.FIFO){
+            radiologyQ.add(patient);
+        }
+        if(this.radiologyTriageType == TriageType.GRAVITY){
+            radiologyQ.addFirst(patient);
+        }
+
     }
 
     public void addPatient(Patient patient)

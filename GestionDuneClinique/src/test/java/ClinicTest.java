@@ -11,7 +11,7 @@ public class ClinicTest {
     @Test
     public void givenAPatient_whenAddingPatientInDoctorsQ_thenPatientAdded()
     {
-        Clinic clinic = new Clinic(TriageType.FIFO);
+        Clinic clinic = new Clinic(TriageType.FIFO, TriageType.FIFO);
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.COLD);
 
         clinic.addPatient(patient);
@@ -22,7 +22,7 @@ public class ClinicTest {
     @Test
     public void givenOnePatientInList_whenMeet_thenPatientIsRemoved()
     {
-        Clinic clinic = new Clinic(TriageType.FIFO);
+        Clinic clinic = new Clinic(TriageType.FIFO, TriageType.FIFO);
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.COLD);
 
         clinic.addPatient(patient);
@@ -34,7 +34,7 @@ public class ClinicTest {
     @Test
     public void givenTwoPatientsInList_whenMeet_thenPatientRemovedInSameOrder()
     {
-        Clinic clinic = new Clinic(TriageType.FIFO);
+        Clinic clinic = new Clinic(TriageType.FIFO, TriageType.FIFO);
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.COLD);
         Patient patient2 = new Patient("Jean-Marie", 4, VisibleSymptom.COLD);
         clinic.addPatient(patient);
@@ -51,7 +51,7 @@ public class ClinicTest {
     @Test
     public void givenRadiologyQueueNotEmpty_whenradiologyMeetPatient_thenFisrtPatientFromRadiologyQueueRemoved()
     {
-        Clinic clinic = new Clinic(TriageType.FIFO);
+        Clinic clinic = new Clinic(TriageType.FIFO, TriageType.FIFO);
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.BROKEN_BONE);
         Patient patient2 = new Patient("Jean-Marie", 4, VisibleSymptom.BROKEN_BONE);
         clinic.addPatient(patient);
@@ -69,7 +69,7 @@ public class ClinicTest {
     @Test
     public void givenPatientHasBrokenBone_whenAddingPatient_thenAddToBothDoctorAndRadiologyQ()
     {
-        Clinic clinic = new Clinic(TriageType.FIFO);
+        Clinic clinic = new Clinic(TriageType.FIFO, TriageType.FIFO);
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.BROKEN_BONE);
         clinic.addPatient(patient);
 
@@ -80,7 +80,7 @@ public class ClinicTest {
     @Test
     public void givenPatientHasHighGravityAndAlgoIsGravity_whenAddingPatient_thenPatientFirstInQueue()
     {
-        Clinic clinic = new Clinic(TriageType.GRAVITY);
+        Clinic clinic = new Clinic(TriageType.GRAVITY, TriageType.GRAVITY);
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.BROKEN_BONE);
         Patient patient2 = new Patient("BOB", 7, VisibleSymptom.COLD);
         clinic.addPatient(patient);
@@ -92,6 +92,22 @@ public class ClinicTest {
         assertEquals(patient2, meetedPatient);
         assertEquals(patient, meetedPatient2);
         assertTrue(clinic.doctorsQIsEmpty());
+    }
+
+    @Test
+    public void givenTwoPatientsInDoctorAndRadiologyQueue_whenNewPatientHasBrokenBoneSeverity7_thenPatientIsFirstInQueue()
+    {
+        Clinic clinic = new Clinic(TriageType.GRAVITY, TriageType.GRAVITY);
+        Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.BROKEN_BONE);
+        Patient patient2 = new Patient("BOB", 7, VisibleSymptom.BROKEN_BONE);
+        clinic.addPatient(patient);
+        clinic.addPatient(patient2);
+
+        Patient meetedPatientDoctor = clinic.doctorMeetPatient();
+        Patient meetedpatientRadiology = clinic.radiologyMeetPatient();
+
+        assertEquals(patient2, meetedPatientDoctor);
+        assertEquals(patient2, meetedpatientRadiology);
     }
 }
 
