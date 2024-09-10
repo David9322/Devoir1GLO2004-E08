@@ -13,7 +13,7 @@ public class ClinicTest {
         Clinic clinic = new Clinic();
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.COLD);
 
-        clinic.addPatientToDoctorsQ(patient);
+        clinic.addPatient(patient);
 
         assertFalse(clinic.isEmpty());
     }
@@ -24,10 +24,43 @@ public class ClinicTest {
         Clinic clinic = new Clinic();
         Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.COLD);
 
+        clinic.addPatient(patient);
         clinic.meetPatient();
 
         assertTrue(clinic.docstorsQIsEmpty());
     }
+
+
+    @Test
+    public void givenTwoPatientsInList_whenMeet_thenPatientRemovedInSameOrder()
+    {
+        Clinic clinic = new Clinic();
+        Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.COLD);
+        Patient patient2 = new Patient("Jean-Marie", 4, VisibleSymptom.COLD);
+        clinic.addPatient(patient);
+        clinic.addPatient(patient2);
+
+        Patient meetedPatient = clinic.meetPatient();
+        Patient meetedPatient2 = clinic.meetPatient();
+
+        assertEquals(patient, meetedPatient);
+        assertEquals(patient2, meetedPatient2);
+        assertTrue(clinic.docstorsQIsEmpty());
+    }
+
+
+    @Test
+    public void givenPatientHasBrokenBone_whenAddingPatient_thenAddToBothDoctorAndRadiologyQ()
+    {
+        Clinic clinic = new Clinic();
+        Patient patient = new Patient("Jean-Guy", 4, VisibleSymptom.BROKEN_BONE);
+        clinic.addPatient(patient);
+
+        assertFalse(clinic.docstorsQIsEmpty());
+        assertFalse(clinic.radiologyQIsEmpty());
+    }
+
+
 
 }
 

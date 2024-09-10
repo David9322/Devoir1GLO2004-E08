@@ -1,113 +1,24 @@
 package org.example;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Queue;
+import java.util.*;
 
 public class Clinic {
 
-    private Queue<Patient> doctorsQ = new Queue<Patient>() {
-        @Override
-        public boolean add(Patient patient) {
-            return false;
-        }
+    private List<Patient> doctorsQ = new ArrayList<>();
+    private List<Patient> radiologyQ = new ArrayList<>();
 
-        @Override
-        public boolean offer(Patient patient) {
-            return false;
-        }
-
-        @Override
-        public Patient remove() {
-            return null;
-        }
-
-        @Override
-        public Patient poll() {
-            return null;
-        }
-
-        @Override
-        public Patient element() {
-            return null;
-        }
-
-        @Override
-        public Patient peek() {
-            return null;
-        }
-
-        @Override
-        public int size() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean contains(Object o) {
-            return false;
-        }
-
-        @Override
-        public Iterator<Patient> iterator() {
-            return null;
-        }
-
-        @Override
-        public Object[] toArray() {
-            return new Object[0];
-        }
-
-        @Override
-        public <T> T[] toArray(T[] a) {
-            return null;
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            return false;
-        }
-
-        @Override
-        public boolean containsAll(Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(Collection<? extends Patient> c) {
-            return false;
-        }
-
-        @Override
-        public boolean removeAll(Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean retainAll(Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-    };
-    private Queue<Patient> radiologyQ;
-
-    public void meetPatient()
+    public Patient meetPatient()
     {
-
+        return doctorsQ.removeFirst();
     }
 
     public boolean docstorsQIsEmpty()
     {
-        return true;
+        return doctorsQ.isEmpty();
+    }
+    public boolean radiologyQIsEmpty()
+    {
+        return radiologyQ.isEmpty();
     }
 
     public Clinic(/* ... */) {
@@ -117,10 +28,23 @@ public class Clinic {
         // TODO
     }
 
-    public void addPatientToDoctorsQ(Patient patient)
+    private void addPatientToDoctorsQ(Patient patient)
     {
         doctorsQ.add(patient);
     }
+    private void addPatientToRadiologyQ(Patient patient)
+    {
+        radiologyQ.add(patient);
+    }
+    public void addPatient(Patient patient)
+    {
+        addPatientToDoctorsQ(patient);
+        if(patient.getSymptom().equals(VisibleSymptom.BROKEN_BONE) || patient.getSymptom().equals(VisibleSymptom.SPRAIN)){
+            addPatientToRadiologyQ(patient);
+        }
+    }
+
+
 
     public boolean isEmpty()
     {

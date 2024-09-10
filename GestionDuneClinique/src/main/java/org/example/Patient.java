@@ -12,6 +12,30 @@ public class Patient {
         this.gravity = gravity;
         this.symptom = symptom;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
+    }
+
+    public VisibleSymptom getSymptom() {
+        return symptom;
+    }
+
+    public void setSymptom(VisibleSymptom symptom) {
+        this.symptom = symptom;
+    }
 }
 
 
